@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script type="text/javascript" src="javascripts/app.js"></script>
+  </head>
+  <body>
+    <div ng-controller="podcasts">
+      <input type="text"  ng-model="text" placeholder="Enter here...">
+      <button type="submit" ng-click="get(text)">Search</button>
+    <div class="container">
+      <div class="row">
+        <div ng-repeat="result in results">
+          <div class="col-md-4">
+            <div class="well">
+              <img src={{result.artworkUrl100}}>
+              <p>{{result.collectionName}}</p>
+              <button type="button">Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>
