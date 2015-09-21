@@ -11,6 +11,7 @@
     <div ng-controller="podcasts">
       <input type="text"  ng-model="text" placeholder="Enter here...">
       <button type="submit" ng-click="get(text)">Search</button>
+      <p>{{data.resultCount}}</p>
     <div class="container">
       <div class="row">
         <div ng-repeat="result in results">
@@ -18,7 +19,7 @@
             <div class="well">
               <img src={{result.artworkUrl100}}>
               <p>{{result.collectionName}}</p>
-              <button type="button">Subscribe</button>
+              <button type="button" data={{result.feedUrl}} ng-click="feed(result.feedUrl)">Subscribe</button>
             </div>
           </div>
         </div>
