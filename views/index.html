@@ -1,30 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp">
   <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/angular-material.min.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script type="text/javascript" src="javascripts/lib/angular.min.js"></script>
+    <script type="text/javascript" src="javascripts/lib/angular-route.min.js"></script>
+    <script type="text/javascript" src="javascripts/lib/angular-animate.min.js"></script>
+    <script type="text/javascript" src="javascripts/lib/angular-aria.min.js"></script>
+    <script type="text/javascript" src="javascripts/lib/angular-material.min.js"></script>
     <script type="text/javascript" src="javascripts/app.js"></script>
   </head>
   <body>
-    <div ng-controller="podcasts">
-      <input type="text"  ng-model="text" placeholder="Enter here...">
-      <button type="submit" ng-click="get(text)">Search</button>
-      <p>{{data.resultCount}}</p>
-    <div class="container">
-      <div class="row">
-        <div ng-repeat="result in results">
-          <div class="col-md-4">
-            <div class="well">
-              <img src={{result.artworkUrl100}}>
-              <p>{{result.collectionName}}</p>
-              <button type="button" data={{result.feedUrl}} ng-click="feed(result.feedUrl)">Subscribe</button>
-            </div>
+  <div>
+    <md-content>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h1 flex="20">Podcast Nations</h1>
+            <a flex="10" href="/home">HOME</a>
+            <a  flex="15" href="/categories">CATEGORIES</a>
+            <span flex=""></span>
+          <div ng-controller="login">
+            <md-button ng-click="showLogin($event)">login</md-button>
+          </div>
+          <div ng-controller="register">
+            <md-button ng-click="showRegistration($event)">Register</md-button>
           </div>
         </div>
-      </div>
+      </md-toolbar>
+    </md-content>
+    <div layout="column" layout-fill>
+      <section layout="row">
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
+          <md-toolbar class="md-theme-indigo" style="height: 150px">
+          <div>
+            <iframe fa-play>play</iframe>
+          </div>
+          </md-toolbar>
+          <md-content layout-padding>
+            <md-tabs>
+              <md-tab>
+                <md-tab-label>Downloads</md-tab-label>
+                <md-tab-body  style="height: 500px;">
+
+                </md-tab-body>
+              </md-tab>
+              <span flex=""></span>
+              <md-tab>
+                <md-tab-label>Playlist</md-tab-label>
+                <md-tab-body style="height: 500px;">
+                  Yeah Yeah
+                </md-tab-body>
+              </md-tab>
+            </md-tabs>
+          </md-content>
+        </md-sidenav>
+  <div ng-view="" style="padding: 5px;"></div>
+      </section>
     </div>
-    </div>
+  </div>
   </body>
 </html>
