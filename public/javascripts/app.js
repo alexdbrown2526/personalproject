@@ -1,8 +1,6 @@
 var app = angular.module('myApp', ['ngMaterial', 'ngRoute']);
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
-
-
-    //Sets up my application routes
+//Sets up my application routes
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false
@@ -28,29 +26,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             redirectTo: '/home'
         });
 }]);
-
-//when a top podcast is clicked goes and fetches the JSON data from itunes by ID
-app.controller('home', ['$scope','$http',function($scope, $http){
-    $scope.home = (function(some){
-        console.log('hello');
-        $http.jsonp('https://itunes.apple.com/lookup?id=1024247322', {
-            params: {
-                "callback": 'JSON_CALLBACK'
-            }
-        }).then(function(response){
-            $scope.results = response.data.results;
-            console.log(response);
-        })
-    });
-    $scope.feed = function(url) {
-        var go = {url: url};
-        console.log(go);
-        $http.post('/xml', go).then(function(response) {
-            console.log(response);
-            $scope.episodes = response.data
-        })
-    };
-}]);
+//Dialog for my login page
 app.controller('login', ['$scope','$mdDialog', function($scope,$mdDialog){
     $scope.showLogin = function(ev){
         $mdDialog.show({
@@ -78,8 +54,6 @@ app.controller('login', ['$scope','$mdDialog', function($scope,$mdDialog){
         };
     }
 }]);
-
-
 //Dialog for my registration
 app.controller('register', ['$scope','$mdDialog', function($scope,$mdDialog){
     $scope.showRegistration = function(ev){
@@ -108,35 +82,29 @@ app.controller('register', ['$scope','$mdDialog', function($scope,$mdDialog){
         };
     }
 }]);
-//search bar controller
-app.controller('search', ['$scope','$location', 'searchFactory', function($scope, $location, searchFactory){
-
-    $scope.doit = function(text) {
-        $location.url('/results');
-        searchFactory.sendData(text);
-
-        //$location.url('/results', function(){
-        //    console.log('hello');
-        //    searchFactory.sendData(text);
-        //});
+//API call to get usable data from ID that is returned in home page RSS feed
+app.controller('home', ['$scope','$http',function($scope, $http){
+    $scope.home = (function(some){
+        console.log('hello');
+        $http.jsonp('https://itunes.apple.com/lookup?id=1024247322', {
+            params: {
+                "callback": 'JSON_CALLBACK'
+            }
+        }).then(function(response){
+            $scope.results = response.data.results;
+            console.log(response);
+        })
+    });
+    $scope.feed = function(url) {
+        var go = {url: url};
+        console.log(go);
+        $http.post('/xml', go).then(function(response) {
+            console.log(response);
+            $scope.episodes = response.data
+        })
     };
 }]);
-app.factory('searchFactory',['$rootScope', function($rootScope){
-    var service = {};
-    service.data = false;
-    service.sendData = function(data){
-        this.data = data;
-        $rootScope.$broadcast('sharing');
-    };
-    service.getData = function(){
-        return this.data;
-    };
-    return service;
-}]);
-
-
-
-//Search function for my user search by keyword
+//API call for search by podcast term from search bar
 app.controller('podcasts', ['$scope', '$location', '$http','searchFactory','episodeFactory', function($scope, $location, $http, searchFactory, episodeFactory){
     var text = searchFactory.getData();
     $scope.text = text;
@@ -158,31 +126,7 @@ app.controller('podcasts', ['$scope', '$location', '$http','searchFactory','epis
         })
     }
 }]);
-
-app.factory('episodeFactory',['$rootScope', function($rootScope){
-    var service = {};
-    service.data = false;
-    service.sendData = function(data,result){
-        this.data = data;
-        this.result = result;
-        $rootScope.$broadcast('sharing');
-    };
-    service.getData = function(){
-        return [this.data, this.result];
-    };
-    return service;
-}]);
-
-
-
-app.controller('podcast', ['$scope','episodeFactory', function($scope, episodeFactory){
-    var episode = episodeFactory.getData();
-    $scope.indeps = episode[0];
-    $scope.show = episode[1];
-    console.log($scope.show);
-}]);
-
-    //finds podcasts by genre for my search by category page
+//API call for podcasts by genre for category page
 app.controller('categories', ['$scope', '$http', function($scope, $http){
     $scope.categories = [
         'Art', 'Comedy', 'Education', 'Kids & Family',
@@ -217,12 +161,77 @@ app.controller('categories', ['$scope', '$http', function($scope, $http){
         })
     }
 }]);
-
+//home page controller
 app.controller('home', ['$scope', '$http', function($scope, $http){
     angular.element(document).ready(function() {
         $http.post('/xmlHome',{}).then(function(response){
             $scope.homeDisps = response.data;
         })
     })
+}]);
+//search bar controller
+app.controller('search', ['$scope','$location', 'searchFactory', function($scope, $location, searchFactory) {
+    $scope.doit = function (text) {
+        $location.url('/results');
+        searchFactory.sendData(text);
+    }
+}]);
+//episode controller
+app.controller('episode', ['$scope','episodeFactory', 'musicFactory', function($scope, episodeFactory, musicFactory){
+    var episode = episodeFactory.getData();
+    $scope.indeps = episode[0];
+    $scope.show = episode[1];
+    console.log($scope.indeps);
+    $scope.playIt = function(track){
+        musicFactory.sendData(track);
+    }
+}]);
+//audio player controller
+app.controller('audioPlayer', ['$scope', 'musicFactory', function($scope, musicFactory){
+    var playTrack = musicFactory.getData();
+    console.log(playTrack);
+    $scope.mp3 = playTrack;
+}]);
+//music data share factory
+app.factory('musicFactory', function($rootScope){
+    var service = {};
+    service.data = false;
+    service.sendData = function(data){
+        this.data = data;
+        console.log(this.data);
+        $rootScope.$broadcast('sharing');
+    };
+    service.getData = function(){
+        console.log(this.data);
+        return this.data;
+    };
+    return service
+});
+//search data share factory
+app.factory('searchFactory',['$rootScope', function($rootScope){
+    var service = {};
+    service.data = false;
+    service.sendData = function(data){
+        this.data = data;
+        $rootScope.$broadcast('sharing');
+    };
+    service.getData = function(){
+        return this.data;
+    };
+    return service;
+}]);
+//episode data share factory
+app.factory('episodeFactory',['$rootScope', function($rootScope){
+    var service = {};
+    service.data = false;
+    service.sendData = function(data,result){
+        this.data = data;
+        this.result = result;
+        $rootScope.$broadcast('sharing');
+    };
+    service.getData = function(){
+        return [this.data, this.result];
+    };
+    return service;
 }]);
 

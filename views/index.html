@@ -37,10 +37,10 @@
       <section layout="row">
         <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
           <md-toolbar class="md-theme-indigo" layout-fill>
-          <div>
-            <audio controls="controls">
+          <div ng-controller="audioPlayer">
+            <audio controls autoplay>
               Your browser does not support the <code>audio</code> element.
-              <source src="http://static1.squarespace.com/static/547295cce4b0d0145de2b7dc/t/55b9443ee4b022c1b2e61f39/1438205022530/Limetown_Episode1_Pilot.mp3" type="audio/mp3">
+              <source src={{mp3}} type="audio/mp3">
             </audio>
           </div>
           </md-toolbar>
