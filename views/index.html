@@ -18,7 +18,12 @@
             <h1 flex="20">Podcast Nations</h1>
             <a flex="10" href="/home">HOME</a>
             <a  flex="15" href="/categories">CATEGORIES</a>
+            <a href="/episode">Episodes</a>
             <span flex=""></span>
+          <div ng-controller="search">
+            <input type="text" class="form-control"  ng-model="text" placeholder="Enter here...">
+            <button type="button" ng-click="doit(text)">Search</button>
+          </div>
           <div ng-controller="login">
             <md-button ng-click="showLogin($event)">login</md-button>
           </div>
@@ -31,23 +36,19 @@
     <div layout="column" layout-fill>
       <section layout="row">
         <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
-          <md-toolbar class="md-theme-indigo" style="height: 150px">
+          <md-toolbar class="md-theme-indigo" layout-fill>
           <div>
-            <iframe fa-play>play</iframe>
+            <audio controls="controls">
+              Your browser does not support the <code>audio</code> element.
+              <source src="http://static1.squarespace.com/static/547295cce4b0d0145de2b7dc/t/55b9443ee4b022c1b2e61f39/1438205022530/Limetown_Episode1_Pilot.mp3" type="audio/mp3">
+            </audio>
           </div>
           </md-toolbar>
           <md-content layout-padding>
             <md-tabs>
               <md-tab>
-                <md-tab-label>Downloads</md-tab-label>
-                <md-tab-body  style="height: 500px;">
-
-                </md-tab-body>
-              </md-tab>
-              <span flex=""></span>
-              <md-tab>
                 <md-tab-label>Playlist</md-tab-label>
-                <md-tab-body style="height: 500px;">
+                <md-tab-body>
                   Yeah Yeah
                 </md-tab-body>
               </md-tab>

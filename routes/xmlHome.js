@@ -7,7 +7,7 @@ var request = require('request'),
 router.post('/', function(req, res, next){
     url = req.body.url;
 
-    request('https://itunes.apple.com/us/rss/toppodcasts/limit=25/explicit=true/xml', function (error, response, body) {
+    request('https://itunes.apple.com/us/rss/toppodcasts/limit=50/explicit=true/xml', function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
             var parseString = require('xml2js').parseString;

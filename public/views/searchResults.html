@@ -1,0 +1,8 @@
+<div ng-controller="podcasts">
+    <md-content ng-repeat="result in results" class="podcast">
+        <div>
+            <img src={{result.artworkUrl100}}>
+            <p class="name" ng-click="feed(result.feedUrl, result)">{{result.collectionName}}</p>
+        </div>
+    </md-content>
+</div>

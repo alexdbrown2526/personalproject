@@ -1,3 +1,73 @@
 li {
     list-style-type: none;
 }
+.form-control{
+    display: block;
+    align-content: stretch;
+}
+.podcast{
+    padding: 5px;
+    color: black;
+    width: 200px;
+    float: left;
+    height: 230px;
+}
+.cats{
+    padding: 5px;
+    color: black;
+    width: 200px;
+    float: left;
+    height: 230px;
+}
+.home{
+    padding: 5px;
+    color: black;
+    width: 200px;
+    float: left;
+    height: 230px;
+}
+.podcast img{
+    display: block;
+    margin: 0 auto;
+    height: 130px;
+    width: 130px;
+}
+.name{
+    text-align: center;
+    text-decoration: none;
+    color: black;
+}
+.title{
+    text-align: center;
+    text-decoration: none;
+    color: black;
+}
+.catImage{
+    display: block;
+    margin: 0 auto;
+    height: 130px;
+    width: 130px;
+}
+.homeImage{
+    display: block;
+    margin: 0 auto;
+    height: 130px;
+    width: 130px;
+}
+.navs{
+    position: fixed;
+}
+.epText {
+    width: 643px;
+}
+.episodes button{
+    margin: auto;
+    height: 30px;
+}
+.episodes {
+    border: solid 1px;
+}
+.epImage{
+    width: 300px;
+    height: 300px;
+}

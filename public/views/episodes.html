@@ -1,0 +1,12 @@
+<div ng-controller="podcast">
+    <div layout="row">
+        <img class="epImage" src="{{show.artworkUrl600}}">
+        <h1>{{show.collectionName}}</h1>
+    </div>
+    <div class="episodes" ng-repeat="indep in indeps" layout="row">
+        <h3 class="epText">{{indep.title[0]}}</h3>
+        <button ng-click="play()">Play</button>
+        <button ng-click="download()">Download</button>
+        <button ng-click="playlist()">Add to Playlist</button>
+    </div>
+</div>

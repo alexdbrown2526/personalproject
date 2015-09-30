@@ -4,14 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var xmlBe = require('./routes/xmlBe');
 var xmlCat = require('./routes/xmlCat');
 var xmlHome = require('./routes/xmlHome');
+var genres = require('./routes/genres');
 
 var app = express();
+
+mongoose.connect('mongodb://localhost:27017/podcasts');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,6 +33,7 @@ app.use('/users', users);
 app.use('/xml', xmlBe);
 app.use('/xmlCat', xmlCat);
 app.use('/xmlHome', xmlHome);
+app.use('/genres', genres);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

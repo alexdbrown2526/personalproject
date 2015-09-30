@@ -5,9 +5,10 @@ var request = require('request'),
     xml2js = require('xml2js');
 
 router.post('/', function(req, res, next){
-    url = req.body.url;
-
-    request('https://itunes.apple.com/us/rss/toppodcasts/limit=25/genre='+url+'/explicit=true/xml', function (error, response, body) {
+    var genre = req.body.genre;
+    var file = 'https://itunes.apple.com/us/rss/toppodcasts/limit=25/genre='+genre+'/explicit=true/xml';
+    console.log(genre, file);
+    request(file, function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
             var parseString = require('xml2js').parseString;

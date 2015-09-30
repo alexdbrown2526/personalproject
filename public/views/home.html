@@ -1,5 +1,8 @@
 <div ng-controller="home">
-    <input type="text" class="form-control"  ng-model="text" placeholder="Enter here...">
-    <button type="button" ng-click="home()">Search</button>
-
+<md-content class="home" ng-repeat="homeDisp in homeDisps">
+    <div>
+        <img class="homeImage" src={{homeDisp['im:image'][2]._}}>
+        <p ng-click="subEps(homeDisp.id[0].$['im:id'])" class="title">{{homeDisp['im:name'][0]}}</p>
+    </div>
+</md-content>
 </div>

@@ -1,0 +1,24 @@
+<div ng-controller="categories">
+    <div layout="row">
+    <md-input-container>
+        <label>Category</label>
+        <md-select ng-model="category">
+            <md-option ng-click="subs(category)" ng-repeat="category in categories" value="{{category}}">{{category}}</md-option>
+        </md-select>
+    </md-input-container>
+    <md-input-container>
+        <label>Sub-Categories</label>
+        <md-select ng-model="subGenre">
+            <md-option ng-click="subcast(subGenre.index)" ng-repeat="subGenre in subGenres">{{subGenre.title}}</md-option>
+        </md-select>
+    </md-input-container>
+    </div>
+        <md-content class="cats" ng-repeat="subDisp in subDisps">
+            <div>
+            <img class="catImage" src={{subDisp['im:image'][2]._}}>
+            <p ng-click="subEps(subDisp.id[0].$['im:id'])" class="title">{{subDisp['im:name'][0]}}</p>
+            </div>
+        </md-content>
+    </div>
+</div>
+
