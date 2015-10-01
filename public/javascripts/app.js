@@ -181,28 +181,29 @@ app.controller('episode', ['$scope','episodeFactory', 'musicFactory', function($
     var episode = episodeFactory.getData();
     $scope.indeps = episode[0];
     $scope.show = episode[1];
-    console.log($scope.indeps);
     $scope.playIt = function(track){
         musicFactory.sendData(track);
     }
 }]);
 //audio player controller
-app.controller('audioPlayer', ['$scope', 'musicFactory', function($scope, musicFactory){
-    var playTrack = musicFactory.getData();
-    console.log(playTrack);
-    $scope.mp3 = playTrack;
+app.controller('audioPlayer', ['$scope','$sce', 'musicFactory', function($scope, $sce, musicFactory){
+
+    $scope.$on('shared', function(){
+        var foo = [];
+        var playTrack = musicFactory.getData();
+        foo.push({ url: $sce.trustAsResourceUrl(playTrack)});
+        $scope.foo = foo;
+    });
+
 }]);
 //music data share factory
 app.factory('musicFactory', function($rootScope){
     var service = {};
-    service.data = false;
     service.sendData = function(data){
         this.data = data;
-        console.log(this.data);
-        $rootScope.$broadcast('sharing');
+        $rootScope.$broadcast('shared');
     };
     service.getData = function(){
-        console.log(this.data);
         return this.data;
     };
     return service

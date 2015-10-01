@@ -33,15 +33,17 @@
         </div>
       </md-toolbar>
     </md-content>
-    <div layout="column" layout-fill>
+    </div>
+    <div>
       <section layout="row">
         <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
           <md-toolbar class="md-theme-indigo" layout-fill>
           <div ng-controller="audioPlayer">
-            <audio controls autoplay>
-              Your browser does not support the <code>audio</code> element.
-              <source src={{mp3}} type="audio/mp3">
+            <div ng-repeat="foo in foo">
+            <audio controls autoplay preload="auto">
+              <source ng-src="{{foo.url}}">
             </audio>
+            </div>
           </div>
           </md-toolbar>
           <md-content layout-padding>
