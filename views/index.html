@@ -17,12 +17,11 @@
         <div class="md-toolbar-tools">
             <h1 flex="20">Podcast Nations</h1>
             <a flex="10" href="/home">HOME</a>
-            <a  flex="15" href="/categories">CATEGORIES</a>
-            <a href="/episode">Episodes</a>
+            <a  flex="15" href="/categories">Discover</a>
             <span flex=""></span>
           <div ng-controller="search">
             <input type="text" class="form-control"  ng-model="text" placeholder="Enter here...">
-            <button type="button" ng-click="doit(text)">Search</button>
+            <md-button type="button" ng-click="doit(text)">Search</md-button>
           </div>
           <div ng-controller="login">
             <md-button ng-click="showLogin($event)">login</md-button>
@@ -34,27 +33,34 @@
       </md-toolbar>
     </md-content>
     </div>
-    <div>
+    <div ng-controller="podcasts">
       <section layout="row">
         <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
           <md-toolbar class="md-theme-indigo" layout-fill>
-          <div ng-controller="audioPlayer">
-            <div ng-repeat="foo in foo">
-            <audio controls autoplay preload="auto">
-              <source ng-src="{{foo.url}}">
-            </audio>
+            <div ng-controller="audioPlayer">
+              <div ng-repeat="foo in foo">
+                <audio controls autoplay preload="auto">
+                  <source src="{{foo.url}}">
+                </audio>
+              </div>
             </div>
-          </div>
+            <h2 class="title">PLAYLIST</h2>
           </md-toolbar>
-          <md-content layout-padding>
-            <md-tabs>
-              <md-tab>
-                <md-tab-label>Playlist</md-tab-label>
-                <md-tab-body>
-                  Yeah Yeah
-                </md-tab-body>
-              </md-tab>
-            </md-tabs>
+          <md-content>
+            <div layout="column">
+              <div data-ng-repeat="playlist in episode">
+                <div class="md-whiteframe-2dp" layout layout-align="center right">
+                  <img src="{{playlist.podImage}}">
+                  <div>
+                  <span class="epTitle">{{playlist.epTitle}}</span>
+                  <div>
+                    <md-button ng-click="play(playlist.epUrl)">PLAY</md-button>
+                    <md-button ng-click="delete(playlist.epTitle)">X</md-button>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
           </md-content>
         </md-sidenav>
   <div ng-view="" style="padding: 5px;"></div>

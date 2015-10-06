@@ -2,11 +2,12 @@
     <div layout="row">
         <img class="epImage" src="{{show.artworkUrl600}}">
         <h1>{{show.collectionName}}</h1>
+        <h3>{{show.summary[0]}}</h3>
     </div>
     <div class="episodes" ng-repeat="indep in indeps" layout="row">
         <h3 class="epText">{{indep.title[0]}}</h3>
-        <button ng-click="playIt(indep.enclosure[0].$.url)">Play</button>
-        <button ng-click="download()">Download</button>
-        <button ng-click="playlist()">Add to Playlist</button>
+        <md-button ng-click="playIt(indep.enclosure[0].$.url)">Play</md-button>
+        <md-button ng-click="download()">Download</md-button>
+        <md-button ng-click="playlist(indep, show)">Add to Playlist</md-button>
     </div>
 </div>

@@ -19,5 +19,20 @@ router.post('/', function(req,res,next){
   });
   res.sendStatus(200);
 });
+router.get('/:id', function(req, res, next){
+  console.log(req.params.id);
+  User.findOne({_id: req.params.id}, function(err, user){
+    console.log(user);
+    res.json(user);
+  })
+});
+router.put('/', function(req, res, next){
+console.log(req.body);
 
+User.update({_id: req.body.id },
+    { $pull: { "playlist": { "epTitle":  req.body.track  } } }, function(err, response) {
+      console.log(response);
+        res.json(response);
+    })
+});
 module.exports = router;

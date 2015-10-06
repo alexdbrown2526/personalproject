@@ -7,20 +7,16 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     });
     $routeProvider.
         when('/categories', {
-            templateUrl: 'views/categories.html',
-            controller: 'categories'
+            templateUrl: 'views/categories.html'
         }).
         when('/home', {
-            templateUrl: 'views/home.html',
-            controller: 'home'
+            templateUrl: 'views/home.html'
         }).
         when('/episode', {
-            templateUrl: 'views/episodes.html',
-            controller: 'podcasts'
+            templateUrl: 'views/episodes.html'
         }).
         when('/results', {
-            templateUrl: 'views/searchResults.html',
-            controller: 'podcasts'
+            templateUrl: 'views/searchResults.html'
         }).
         otherwise({
             redirectTo: '/home'
@@ -38,14 +34,9 @@ app.controller('login', ['$scope','$mdDialog', function($scope,$mdDialog){
         })
             .then(function(answer) {
                 $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
             });
     };
     function DialogController($scope, $mdDialog) {
-        $scope.hide = function() {
-            $mdDialog.hide();
-        };
         $scope.cancel = function() {
             $mdDialog.cancel();
         };
@@ -66,48 +57,22 @@ app.controller('register', ['$scope','$mdDialog', function($scope,$mdDialog){
         })
             .then(function(answer) {
                 $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
             });
     };
     function DialogController($scope, $mdDialog) {
-        $scope.hide = function() {
-            $mdDialog.hide();
-        };
         $scope.cancel = function() {
             $mdDialog.cancel();
         };
         $scope.answer = function(answer) {
+            console.log(answer);
             $mdDialog.hide(answer);
         };
     }
 }]);
-//API call to get usable data from ID that is returned in home page RSS feed
-app.controller('home', ['$scope','$http',function($scope, $http){
-    $scope.home = (function(some){
-        console.log('hello');
-        $http.jsonp('https://itunes.apple.com/lookup?id=1024247322', {
-            params: {
-                "callback": 'JSON_CALLBACK'
-            }
-        }).then(function(response){
-            $scope.results = response.data.results;
-            console.log(response);
-        })
-    });
-    $scope.feed = function(url) {
-        var go = {url: url};
-        console.log(go);
-        $http.post('/xml', go).then(function(response) {
-            console.log(response);
-            $scope.episodes = response.data
-        })
-    };
-}]);
 //API call for search by podcast term from search bar
-app.controller('podcasts', ['$scope', '$location', '$http','searchFactory','episodeFactory', function($scope, $location, $http, searchFactory, episodeFactory){
-    var text = searchFactory.getData();
-    $scope.text = text;
+app.controller('podcasts', ['$scope', '$location', '$http','searchFactory','episodeFactory', 'playlistFactory', 'musicFactory', function($scope, $location, $http, searchFactory, episodeFactory, playlistFactory, musicFactory){
+    var term = searchFactory.getData();
+    $scope.text = term;
     $http.jsonp('https://itunes.apple.com/search', {
         params: {
             "callback": 'JSON_CALLBACK',
@@ -124,10 +89,30 @@ app.controller('podcasts', ['$scope', '$location', '$http','searchFactory','epis
             episodeFactory.sendData(podcasts,result);
             $location.url('/episode');
         })
+    };
+    $scope.$on('playlist', function(){
+    var episodes = playlistFactory.getData();
+    console.log(episodes);
+    $scope.episode = episodes;
+    });
+    $scope.play = function(url){
+        console.log(url);
+       musicFactory.sendData(url)
+    };
+    $scope.delete = function(episode){
+        console.log('hello');
+        var id = '560ece316d4645e054bc8a33';
+        var track = episode;
+        $http.put('/users', { id:id, track: track }).then(function() {
+            $http.get('/users/'+id).then(function (response) {
+                console.log(response);
+                playlistFactory.sendData(response.data.playlist);
+            })
+        })
     }
 }]);
 //API call for podcasts by genre for category page
-app.controller('categories', ['$scope', '$http', function($scope, $http){
+app.controller('categories', ['$scope', '$http', '$location', 'episodeFactory', function($scope, $http, $location, episodeFactory){
     $scope.categories = [
         'Art', 'Comedy', 'Education', 'Kids & Family',
         'Health', 'TV & Film', 'Music', 'News & Politics',
@@ -136,37 +121,59 @@ app.controller('categories', ['$scope', '$http', function($scope, $http){
         'Games & Hobbies', 'Society & Culture', 'Government & Organizations'
     ];
     $scope.subs = function(value){
-        console.log(value);
         $http.get('/genres/'+value
         ).then(function(response){
         $scope.subGenres = response.data
         })
     };
     $scope.subcast = function(value){
-        console.log(value);
         $http.post('/xmlCat', {genre: value}).then(function(response) {
             $scope.subDisps = response.data;
-            console.log(response.data);
         })
     };
     $scope.subEps = function(id){
-        console.log('hello', id);
         $http.jsonp('https://itunes.apple.com/lookup?id='+id, {
             params: {
                 "callback": 'JSON_CALLBACK'
             }
         }).then(function(response){
             $scope.results = response.data.results;
-            console.log(response);
+            $scope.feed($scope.results[0].feedUrl, response.data.results[0]);
+        })
+    };
+    $scope.feed = function(url, result) {
+        var go = {url: url};
+        $http.post('/xml', go).then(function(response) {
+            var podcasts = response.data;
+            episodeFactory.sendData(podcasts,result);
+            $location.url('/episode');
         })
     }
 }]);
 //home page controller
-app.controller('home', ['$scope', '$http', function($scope, $http){
+app.controller('home', ['$scope', '$http', '$location', 'episodeFactory', function($scope, $http,$location, episodeFactory){
     angular.element(document).ready(function() {
         $http.post('/xmlHome',{}).then(function(response){
             $scope.homeDisps = response.data;
-        })
+        });
+        $scope.homeEps = function(id){
+            $http.jsonp('https://itunes.apple.com/lookup?id='+id, {
+                params: {
+                    "callback": 'JSON_CALLBACK'
+                }
+            }).then(function(response){
+                $scope.results = response.data.results;
+                $scope.feed($scope.results[0].feedUrl, response.data.results[0]);
+            })
+        };
+        $scope.feed = function(url, result) {
+            var go = {url: url};
+            $http.post('/xml', go).then(function(response) {
+                var podcasts = response.data;
+                episodeFactory.sendData(podcasts,result);
+                $location.url('/episode');
+            })
+        }
     })
 }]);
 //search bar controller
@@ -177,13 +184,30 @@ app.controller('search', ['$scope','$location', 'searchFactory', function($scope
     }
 }]);
 //episode controller
-app.controller('episode', ['$scope','episodeFactory', 'musicFactory', function($scope, episodeFactory, musicFactory){
+app.controller('episode', ['$scope','$http','episodeFactory', 'musicFactory', 'playlistFactory', function($scope, $http, episodeFactory, musicFactory, playlistFactory){
     var episode = episodeFactory.getData();
     $scope.indeps = episode[0];
     $scope.show = episode[1];
-    $scope.playIt = function(track){
+    console.log($scope.show);
+    $scope.playIt = function(track) {
         musicFactory.sendData(track);
-    }
+    };
+    $scope.playlist = function(episode, show){
+        console.log(episode);
+        console.log(show);
+        var playEp = {podTitle: show.collectionName, epTitle: episode.title[0], epUrl: episode.enclosure[0].$.url, epDur: episode['itunes:duration'][0], epDate: episode.pubDate[0], podImage: show.artworkUrl60};
+        $http.put('/playlist', playEp).then(function(response){
+            console.log(response);
+            $scope.get();
+        })
+    };
+    $scope.get = function(){
+        var id = '560ece316d4645e054bc8a33';
+      $http.get('/users/'+id).then(function(response){
+          console.log(response);
+          playlistFactory.sendData(response.data.playlist);
+      })
+    };
 }]);
 //audio player controller
 app.controller('audioPlayer', ['$scope','$sce', 'musicFactory', function($scope, $sce, musicFactory){
@@ -191,30 +215,33 @@ app.controller('audioPlayer', ['$scope','$sce', 'musicFactory', function($scope,
     $scope.$on('shared', function(){
         var foo = [];
         var playTrack = musicFactory.getData();
+        console.log('hello2');
         foo.push({ url: $sce.trustAsResourceUrl(playTrack)});
         $scope.foo = foo;
     });
-
 }]);
 //music data share factory
-app.factory('musicFactory', function($rootScope){
+app.factory('musicFactory',['$rootScope', function($rootScope){
     var service = {};
+    service.data = false;
     service.sendData = function(data){
         this.data = data;
         $rootScope.$broadcast('shared');
     };
     service.getData = function(){
+        console.log('hello1');
         return this.data;
     };
     return service
-});
+}]);
 //search data share factory
 app.factory('searchFactory',['$rootScope', function($rootScope){
     var service = {};
     service.data = false;
     service.sendData = function(data){
+        console.log('hello');
         this.data = data;
-        $rootScope.$broadcast('sharing');
+        $rootScope.$broadcast('share');
     };
     service.getData = function(){
         return this.data;
@@ -235,4 +262,17 @@ app.factory('episodeFactory',['$rootScope', function($rootScope){
     };
     return service;
 }]);
-
+//playlist object constructing factory
+app.factory('playlistFactory', ['$rootScope', function($rootScope){
+    var service = {};
+    service.data = false;
+    service.sendData = function(playlist){
+        console.log(playlist);
+        this.playlist = playlist;
+        $rootScope.$broadcast('playlist');
+    };
+    service.getData = function(){
+        return this.playlist;
+    };
+    return service;
+}]);

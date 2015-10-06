@@ -71,3 +71,13 @@ li {
     width: 300px;
     height: 300px;
 }
+.md-whiteframe-2dp{
+    padding: 2px;
+    border: solid 1px;
+}
+.title{
+    text-align: center;
+}
+.epTitle{
+    font-size: 10px;
+}
