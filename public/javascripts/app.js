@@ -152,10 +152,11 @@ app.controller('categories', ['$scope', '$http', '$location', 'episodeFactory', 
 }]);
 //home page controller
 app.controller('home', ['$scope', '$http', '$location', 'episodeFactory', function($scope, $http,$location, episodeFactory){
-    angular.element(document).ready(function() {
-        $http.post('/xmlHome',{}).then(function(response){
+    function getHome() {
+        $http.post('/xmlHome', {}).then(function (response) {
             $scope.homeDisps = response.data;
         });
+    }
         $scope.homeEps = function(id){
             $http.jsonp('https://itunes.apple.com/lookup?id='+id, {
                 params: {
@@ -173,8 +174,8 @@ app.controller('home', ['$scope', '$http', '$location', 'episodeFactory', functi
                 episodeFactory.sendData(podcasts,result);
                 $location.url('/episode');
             })
-        }
-    })
+        };
+    getHome();
 }]);
 //search bar controller
 app.controller('search', ['$scope','$location', 'searchFactory', function($scope, $location, searchFactory) {

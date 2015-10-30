@@ -16,10 +16,10 @@
       <md-toolbar>
         <div class="md-toolbar-tools">
             <h1 flex="20">Podcast Nations</h1>
-            <a flex="10" href="/home">HOME</a>
-            <a  flex="15" href="/categories">Discover</a>
+            <md-button href="/home">HOME</md-button>
+            <md-button href="/categories">Discover</md-button>
             <span flex=""></span>
-          <div ng-controller="search">
+          <div ng-controller="search" layout="row">
             <input type="text" class="form-control"  ng-model="text" placeholder="Enter here...">
             <md-button type="button" ng-click="doit(text)">Search</md-button>
           </div>
