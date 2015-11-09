@@ -189,7 +189,7 @@ app.controller('episode', ['$scope','$http','episodeFactory', 'musicFactory', 'p
     var episode = episodeFactory.getData();
     $scope.indeps = episode[0];
     $scope.show = episode[1];
-    console.log($scope.show);
+    console.log($scope.indeps);
     $scope.playIt = function(track) {
         musicFactory.sendData(track);
     };
@@ -209,6 +209,11 @@ app.controller('episode', ['$scope','$http','episodeFactory', 'musicFactory', 'p
           playlistFactory.sendData(response.data.playlist);
       })
     };
+    $scope.download = function(url, title){
+        $http.post('/downloads', {url: url}).then(function(response){
+            console.log(response);
+        });
+        }
 }]);
 //audio player controller
 app.controller('audioPlayer', ['$scope','$sce', 'musicFactory', function($scope, $sce, musicFactory){

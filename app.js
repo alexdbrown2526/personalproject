@@ -12,6 +12,7 @@ var xmlCat = require('./routes/xmlCat');
 var xmlHome = require('./routes/xmlHome');
 var genres = require('./routes/genres');
 var playlist = require('./routes/playlist');
+var downloads = require('./routes/downloads');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/xmlCat', xmlCat);
 app.use('/xmlHome', xmlHome);
 app.use('/genres', genres);
 app.use('/playlist', playlist);
+app.use('/downloads', downloads);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

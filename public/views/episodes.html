@@ -7,7 +7,7 @@
     <div class="episodes" ng-repeat="indep in indeps" layout="row">
         <h3 class="epText">{{indep.title[0]}}</h3>
         <md-button ng-click="playIt(indep.enclosure[0].$.url)">Play</md-button>
-        <md-button ng-click="download()">Download</md-button>
+        <md-button href={{indep.enclosure[0].$.url}} target="_blank">Download</md-button>
         <md-button ng-click="playlist(indep, show)">Add to Playlist</md-button>
     </div>
 </div>
