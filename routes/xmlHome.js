@@ -1,7 +1,7 @@
 var request = require('request'),
     express = require('express'),
     router = express.Router(),
-    bodyParser = require('body-Parser'),
+    bodyParser = require('body-parser'),
     xml2js = require('xml2js');
 
 router.post('/', function(req, res, next){
