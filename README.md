@@ -3,7 +3,7 @@ A web application that I built to grow my AngularJS knowledge(Still in Progress)
 
 The steps for cloning the app are as follows:
 
-1. Run<code> git clone </code> in terminal to clone the repo.
+1. Run<code> git clone https://github.com/brow1726/personalproject.git </code> in terminal to clone the repo.
 
 2. Run<code> npm install </code>to install all of the dependencies.
 
