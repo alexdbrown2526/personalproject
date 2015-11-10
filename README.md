@@ -1,4 +1,5 @@
 <h1> Podcast Web Application</h1>
+<p> My personal project</p>
 <p> The steps for cloning the app are as follows: </p>
 <p> Run </p>
 <code> git clone ....</code>
