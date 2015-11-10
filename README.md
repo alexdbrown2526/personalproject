@@ -23,7 +23,7 @@ You can also search by keyword in the search bar.
 
 The login is not currently functional as authentication needs to be completed but the route is currently available and working. If you would like to use the playlist functionality you must sent a post via postman to <code>localhost:3000/users</code>
 
-The model you need to follow for the body elements are: 
+The model you need to follow for the body elements is: 
 <code>firstName, lastName, email, username, password</code>
 
 Then you need to go into robomongo and copy the guid. Once its been copied it needs to be pasted into the **app.js** on **lines 104 and 206** and also in the **playlist.js** under the routes on **line 9**.
