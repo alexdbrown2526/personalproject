@@ -30,7 +30,7 @@ Then you need to go into robomongo and copy the guid. Once its been copied it ne
 
 
 <h1>TODOS:</h1>
-1. Fix search bar bug(only allows one search wont fire again unless you leave the results page.)
+1. Fix search bar bug(only allows one search wont fire again unless you leave the results page.)[RESOLVED]
 2. Complete authentication to allow users the option to login and add to their own personal playlist.
 3. Add download functionality so users can download to computer.
 4. Build a more visually pleasing media player.
