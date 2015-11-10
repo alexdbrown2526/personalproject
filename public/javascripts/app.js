@@ -15,6 +15,9 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         when('/episode', {
             templateUrl: 'views/episodes.html'
         }).
+        when('/result', {
+            templateUrl: 'views/searchResults.html'
+        }).
         when('/results', {
             templateUrl: 'views/searchResults.html'
         }).
@@ -71,16 +74,18 @@ app.controller('register', ['$scope','$mdDialog', function($scope,$mdDialog){
 }]);
 //API call for search by podcast term from search bar
 app.controller('podcasts', ['$scope', '$location', '$http','searchFactory','episodeFactory', 'playlistFactory', 'musicFactory', function($scope, $location, $http, searchFactory, episodeFactory, playlistFactory, musicFactory){
-    var term = searchFactory.getData();
-    $scope.text = term;
-    $http.jsonp('https://itunes.apple.com/search', {
-        params: {
-            "callback": 'JSON_CALLBACK',
-            "term": $scope.text,
-            "entity": 'podcast'
-        }
-    }).then(function (response) {
-        $scope.results = response.data.results;
+    $scope.$on('share', function() {
+        var term = searchFactory.getData();
+        $scope.text = term;
+        $http.jsonp('https://itunes.apple.com/search', {
+            params: {
+                "callback": 'JSON_CALLBACK',
+                "term": $scope.text,
+                "entity": 'podcast'
+            }
+        }).then(function (response) {
+            $scope.results = response.data.results;
+        });
     });
     $scope.feed = function(url, result) {
         var go = {url: url};
@@ -242,12 +247,14 @@ app.factory('musicFactory',['$rootScope', function($rootScope){
 }]);
 //search data share factory
 app.factory('searchFactory',['$rootScope', function($rootScope){
+    var counter = 0;
+    console.log(counter);
     var service = {};
     service.data = false;
     service.sendData = function(data){
         console.log('hello');
         this.data = data;
-        $rootScope.$broadcast('share');
+            $rootScope.$broadcast('share');
     };
     service.getData = function(){
         return this.data;
