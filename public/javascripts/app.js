@@ -101,7 +101,7 @@ app.controller('podcasts', ['$scope', '$location', '$http','searchFactory','epis
     };
     $scope.delete = function(episode){
         console.log('hello');
-        var id = '560ece316d4645e054bc8a33';
+        var id = '564161a164f7be400d9ab2e0';
         var track = episode;
         $http.put('/users', { id:id, track: track }).then(function() {
             $http.get('/users/'+id).then(function (response) {
@@ -203,7 +203,7 @@ app.controller('episode', ['$scope','$http','episodeFactory', 'musicFactory', 'p
         })
     };
     $scope.get = function(){
-        var id = '560ece316d4645e054bc8a33';
+        var id = '564161a164f7be400d9ab2e0';
       $http.get('/users/'+id).then(function(response){
           console.log(response);
           playlistFactory.sendData(response.data.playlist);
