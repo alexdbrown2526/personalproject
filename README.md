@@ -3,13 +3,13 @@ A web application that I built to grow my AngularJS knowledge(Still in Progress)
 
 The steps for cloning the app are as follows:
 
-1. Run<code> git clone https://github.com/brow1726/personalproject.git </code> in terminal to clone the repo.
+1. Run <code> git clone https://github.com/brow1726/personalproject.git </code> in terminal to clone the repo.
 
-2. Run<code> npm install </code>to install all of the dependencies.
+2. Run <code> npm install </code> to install all of the dependencies.
 
-3. The app runs side by side with Mongo DB so in a seperate terminal run<code> mongod </code>.
+3. The app runs side by side with Mongo DB so in a seperate terminal run <code> mongod </code> it runs on <code>port:27017</code>.
 
-4. Now we are ready to start up so run<code> npm start </code>.
+4. Now we are ready to start up so run <code> npm start </code>.
 
 The site is hosted locally on <code>localhost:3000</code>.
 
